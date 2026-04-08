@@ -1,0 +1,43 @@
+name: Build and Push Frontend Image
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "frontend/**"
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          push: true
+          tags: |
+            fasiuddin007/kubeapp-frontend:latest
+            fasiuddin007/kubeapp-frontend:${{ github.sha }}
+
+      - name: Update image tag in k8s manifest
+        run: |
+          sed -i "s|fasiuddin007/kubeapp-frontend:.*|fasiuddin007/kubeapp-frontend:${{ github.sha }}|g" k8s/frontend-deployment.yaml
+
+      - name: Commit updated manifest
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add k8s/frontend-deployment.yaml
+          git commit -m "ci: update frontend image tag to ${{ github.sha }}"
+          git push
