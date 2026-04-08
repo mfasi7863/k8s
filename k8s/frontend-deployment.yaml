@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: fasiuddin007/kubeapp-frontend:c619643a119f231f527416a2e03adc2edda5b933
+          image: fasiuddin007/kubeapp-frontend:7c67175e25e661c5865a96c8d95129f26fdfabba
           imagePullPolicy: Always
           ports:
             - containerPort: 80
