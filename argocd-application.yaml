@@ -7,7 +7,7 @@ spec:
   project: default
 
   source:
-    repoURL: https://github.com/mfasi7863/k8s_application.git
+    repoURL: https://github.com/mfasi7863/k8s.git
     targetRevision: HEAD
     path: k8s
 
