@@ -1,11 +1,11 @@
 name: Build and Push Frontend Image to ECR
 
-on:
-  push:
-    branches:
-      - main
-    paths:
-      - "frontend/**"
+#on:
+ # push:
+  #  branches:
+   #   - main
+    #paths:
+     # - "frontend/**"
 
 permissions:
   contents: read
